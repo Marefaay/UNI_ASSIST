@@ -21,7 +21,7 @@ const uploadSection = require("../services/sections/uploadSection");
 const filesUpload = require("../middlwares/upload/subjectFilesUpload");
 const deleteSection = require("../services/sections/deleteSection");
 const updateLectureNumber = require("../services/Lectures/updateLecturenumber");
-const updateSectionNumber = require("../services/sections/updateSectionnumber");
+const updateSectionNumber = require("../services/sections/updateSectionNumber");
 const updateLecturePDF = require("../services/Lectures/updateLecturePDF");
 const updateSectionPdf = require("../services/sections/updatedSectionPdf");
 
