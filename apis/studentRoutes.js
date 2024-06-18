@@ -6,10 +6,10 @@ const viewAttendanceValidation = require("../middlwares/validation/viewAttendanc
 // const att = require("../services/student/att");
 const studentLogin = require("../services/student/login");
 const profilePhoto = require("../services/student/profilePhoto");
-const scanQRCodeLecture = require("../services/student/scanQRCodeForLecture");
-const scanQRCodeSection = require("../services/student/scanQrCodeForSection");
-const scan = require("../services/student/scan");
-const scanQR = require("../services/student/scanQRCodeForLecture");
+// const scanQRCodeLecture = require("../services/student/scanQRCodeForLecture");
+// const scanQRCodeSection = require("../services/student/scanQrCodeForSection");
+// const scan = require("../services/student/scan");
+// const scanQR = require("../services/student/scanQRCodeForLecture");
 const viewAttendance = require("../services/student/viewAttendanceForStudent");
 const viewsubjectAttendance = require("../services/student/viewAttendanceForStudent");
 const logout = require("../services/student/logout");
@@ -18,6 +18,12 @@ const objectIdValidation = require("../middlwares/validation/objectIdValdation")
 const getLecture = require("../services/Lectures/getLecture");
 const getSection = require("../services/sections/getSection");
 const downloadSection = require("../services/sections/downloadSection");
+// const scanQR = require("../services/student/scanQRCodeForLecture");
+// const s = require("../services/student/scanQRCodeForSection");
+// const scanQRCodeForSection = require("../services/student/scanQRCodeForSection");
+const scanQRCodeForLecture = require("../services/student/scanQRCodeForLecture");
+const scanQRCodeForSection = require("../services/student/scanQrCodeForSection");
+const scanQRCodeValidation = require("../middlwares/validation/scanQRCodeValidation");
 const router = require("express").Router();
 //Login
 router.post("/login", stuedntValidation, studentLogin);
@@ -25,15 +31,15 @@ router.post("/login", stuedntValidation, studentLogin);
 router.put(
   "/scan-qr-lecture",
   userAutherization,
-  QRCodeUpload.single("image"),
-  scanQRCodeLecture
+  scanQRCodeValidation,
+  scanQRCodeForLecture
 );
 //Record Attendance for section
 router.put(
   "/scan-qr-section",
   userAutherization,
-  QRCodeUpload.single("image"),
-  scanQRCodeSection
+  scanQRCodeValidation,
+  scanQRCodeForSection
 );
 //Upload Profile Photo
 router.post(
