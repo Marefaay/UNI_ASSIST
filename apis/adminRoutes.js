@@ -36,6 +36,9 @@ const addYear = require("../services/years/addYear");
 const deleteYear = require("../services/years/deleteYear");
 const getAllYears = require("../services/years/getAllYears");
 const oneYear = require("../services/years/oneYear");
+const deleteStudentValidation = require("../middlwares/validation/deleteStudentvalidation");
+const deleteGraduationStuedntValidation = require("../middlwares/validation/deleteGradutionStudentvalidation");
+const deleteAdminValidation = require("../middlwares/validation/deleteAdminVlidation.");
 
 const router = require("express").Router();
 //Admin Registration
@@ -53,9 +56,9 @@ router.post(
 router.post("/Add-Student", adminAutherization, stuedntValidation, addStudent); //OK
 //delete student
 router.delete(
-  "/delte-student/:id",
+  "/delte-student",
   adminAutherization,
-  objectIdValidation,
+  deleteStudentValidation,
   deleteStudent
 ); //OK
 //show all underGraduated student
@@ -68,9 +71,9 @@ router.post(
 ); //OK
 //delte graduated student
 router.delete(
-  "/delte-graduation-student/:id",
+  "/delte-graduation-student",
   adminAutherization,
-  objectIdValidation,
+  deleteGraduationStuedntValidation,
   deleteGrduationStudent
 ); //OK
 //add graduation student
@@ -113,9 +116,9 @@ router.put(
 router.get("/show-all-subjects", adminAutherization, showAllSubjects); //ok
 //delte admin
 router.delete(
-  "/delete-admin/:id",
+  "/delete-admin",
   adminAutherization,
-  objectIdValidation,
+  deleteAdminValidation,
   deleteAdmin
 ); //TODO
 //view Lecture  attendance
