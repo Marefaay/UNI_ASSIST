@@ -1,5 +1,6 @@
 const adminAutherization = require("../middlwares/autherization/adminAuthrization");
 const adminValidation = require("../middlwares/validation/adminValidation");
+const deleteSubjectValidation = require("../middlwares/validation/deleteSubjectValidation");
 const graduationStuedntValidation = require("../middlwares/validation/gradutionStudent");
 const objectIdInBodyValidation = require("../middlwares/validation/objectIdInBodyValidation");
 const objectIdValidation = require("../middlwares/validation/objectIdValdation");
@@ -12,8 +13,8 @@ const addGraduationStudent = require("../services/admin/addGraduationStudent");
 const addProfOrProfAssist = require("../services/admin/addProfOrProfAssist");
 const addStudent = require("../services/admin/addStudent");
 const addSubject = require("../services/admin/addSubject");
+const delSubj = require("../services/admin/deleteSubject");
 const deleteGrduationStudent = require("../services/admin/deleteGraduationStudent");
-const delteSubject = require("../services/admin/deleteSubject");
 const deleteAdmin = require("../services/admin/delteAdmin");
 const deleteStudent = require("../services/admin/delteStudent");
 const adminLogin = require("../services/admin/login");
@@ -89,12 +90,17 @@ router.get(
 //add Subject
 router.post("/add-subject", adminAutherization, subjectValidation, addSubject); //OK
 //delte subject
+// router.delete(
+//   "/delete-subject",
+//   adminAutherization,
+//   delteSubject
+// ); //TODO
 router.delete(
-  "/delete-subject/:id",
+  "/delete-subject",
   adminAutherization,
-  objectIdValidation,
-  delteSubject
-); //TODO
+  deleteSubjectValidation,
+  delSubj
+);
 //update Subject
 router.put(
   "/update-subject/:id",
