@@ -8,7 +8,7 @@ const delSubj = async (reqeust, response) => {
     const { ID } = reqeust.body;
     //find subject
     const subject = await subjectModel.findOne({ ID });
-    console.log(subject.title);
+  
     //Subject Not Exist
     if (!subject) {
       return response.json({
