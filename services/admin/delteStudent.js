@@ -4,28 +4,26 @@ const removeFromCloudinary = require("../../utils/removeFromCloudinary");
 
 //Bussiness Logic
 const deleteStudent = async (request, repsone) => {
-  const { id } = request.params;
+  const { email } = request.body;
   //find Student
-  const student = await studentModel.findOne({ _id: id });
+  const student = await studentModel.findOne({ email });
   if (student) {
     //delte student from database
-    await studentModel.deleteOne({ _id: id });
-     //delete profile photo
-  await removeFromCloudinary(student.profilePhoto.publicId);
-   //delete comments @TODO
-  //response
+    await studentModel.deleteOne({ email });
+    //delete profile photo
+    await removeFromCloudinary(student.profilePhoto.publicId);
+    //delete comments @TODO
+    //response
     return repsone.json({
       status: "Succes",
-      message: `User With id ('${id}') deleted succefully`,
+      message: `User With id ('${email}') deleted succefully`,
     });
   } else {
     //if user not found
     return repsone.json({
       status: "Error",
-      message: `No User Found With Id('${id}')`,
+      message: `No User Found With Id('${email}')`,
     });
   }
- 
- 
 };
 module.exports = deleteStudent;
