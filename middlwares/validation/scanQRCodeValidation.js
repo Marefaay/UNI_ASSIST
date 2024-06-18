@@ -7,6 +7,7 @@ const schema = joi.object({
   subjectName: joi.string().required().min(3).max(25),
   week: joi.string().required(),
   department: joi.string().required(),
+  group:joi.string().required(),
   location: joi.string().required(),
   lecturereName: joi.string().required(),
 });
