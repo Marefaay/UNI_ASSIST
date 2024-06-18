@@ -20,6 +20,13 @@ const scanQRCodeForLecture = async (request, response) => {
   if (subject) {
     //find student that want to record attendance
     const student = await studentModel.findOne({ _id: request.id });
+    console.log(student);
+    if (!student) {
+      return response.json({
+        status: "Error",
+        message: "Student Is Not Found",
+      });
+    }
     //check if type is lecture
     if (type.toLowerCase() === "lecture") {
       //check if there is an attendance for lecture
