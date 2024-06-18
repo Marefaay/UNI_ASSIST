@@ -20,7 +20,7 @@ const subjectSchema = new mongoose.Schema(
       required: true,
     },
     numberOfHours: {
-      type: Number,
+      type: String,
       required: true,
     },
     lectureAttendance: [
