@@ -26,8 +26,8 @@ const showAllGraduationStudent = require("../services/admin/showAllGraduationStu
 const showAllStudent = require("../services/admin/showAllStudent");
 const showAllSubjects = require("../services/admin/showAllSubjects");
 const updateSubject = require("../services/admin/updateSubject");
-const viewLectureAttendance = require("../services/admin/viewLectureAttendanceForAdmin");
-const viewSectionAttendance = require("../services/admin/viewSectionAttendanceForAdmin");
+const viewLectureAttendance = require("../services/admin/viewLectureAttendance");
+const viewSectionAttendance = require("../services/admin/viewSectionAttendance");
 const addSemster = require("../services/semster/addSemster");
 const deleteSemster = require("../services/semster/deleteSemster");
 const getAllSemsters = require("../services/semster/getAllSemsters");
@@ -39,6 +39,8 @@ const oneYear = require("../services/years/oneYear");
 const deleteStudentValidation = require("../middlwares/validation/deleteStudentvalidation");
 const deleteGraduationStuedntValidation = require("../middlwares/validation/deleteGradutionStudentvalidation");
 const deleteAdminValidation = require("../middlwares/validation/deleteAdminVlidation.");
+const view = require("../services/admin/viewLectureAttendance");
+const view1 = require("../services/admin/viewSectionAttendance");
 
 const router = require("express").Router();
 //Admin Registration
@@ -121,21 +123,7 @@ router.delete(
   deleteAdminValidation,
   deleteAdmin
 ); //TODO
-//view Lecture  attendance
-router.get(
-  "/view-lecture-attendance",
-  adminAutherization,
-  viewAttendanceValidation,
-  viewLectureAttendance
-); //OK
-//view Section  attendance
 
-router.get(
-  "/view-section-attendance",
-  adminAutherization,
-  viewAttendanceValidation,
-  viewSectionAttendance
-); //OK
 //add year
 router.post("/year/add-year", adminAutherization, addYear);
 //delete year
@@ -173,6 +161,20 @@ router.get(
 );
 //get all semsters
 router.get("/semster/all-semsters", adminAutherization, getAllSemsters);
+//view lecture attendance
+router.get(
+  "/attendance/view-lecture-attendance",
+  adminAutherization,
+  viewAttendanceValidation,
+  viewLectureAttendance
+);
+//view section attendance
+router.get(
+  "/attendance/view-section-attendance",
+  adminAutherization,
+  viewAttendanceValidation,
+  viewSectionAttendance
+);
 //logout
 router.post("/logout", adminAutherization, logout); //ok
 module.exports = router;
