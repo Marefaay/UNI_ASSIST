@@ -6,29 +6,23 @@ const postSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
       minlength: 5,
       maxlength: 200,
     },
     description: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
       minlength: 10,
     },
-    uploadedBy: {
+    publisher: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "prof-profAssist",
-      required: true,
+      // required: true,
     },
-    Image: {
-      type: Object,
-      default: {
-        url: "",
-        publicId: null,
-      },
-    },
+   
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -45,8 +39,6 @@ const postSchema = new mongoose.Schema(
   },
   {
     timesstamps: true,
-    toJSON: { virtual: true },
-    toObject: { virtual: true },
   }
 );
 
