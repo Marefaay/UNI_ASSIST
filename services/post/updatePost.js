@@ -16,7 +16,19 @@ const updatePost = async (request, response) => {
   );
   const upadtedPost = await postModel
     .findOne({ _id: id })
-    .populate("publisher");
+    .populate("publisher", {
+      _id: 0,
+      email: 0,
+      password: 0,
+      subject: 0,
+      profilePhoto: 0,
+      addedBy: 0,
+      role: 0,
+      isAdmin: 0,
+      __v: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    });
   return response.json({
     status: "Succes",
     message: "Post Updated Succefully",
