@@ -21,9 +21,13 @@ const uploadSection = require("../services/sections/uploadSection");
 const filesUpload = require("../middlwares/upload/subjectFilesUpload");
 const deleteSection = require("../services/sections/deleteSection");
 const updateLectureNumber = require("../services/Lectures/updateLecturenumber");
-const updateSectionNumber = require("../services/sections/updateSectionNumber");
+const updateSectionNumber = require("../services/sections/updateSectionnumber");
 const updateLecturePDF = require("../services/Lectures/updateLecturePDF");
 const updateSectionPdf = require("../services/sections/updatedSectionPdf");
+const getOnePost = require("../services/post/getOnePost");
+const getProfPosts = require("../services/post/getProfPosts");
+const deletePost = require("../services/post/deletePost");
+const updatePost = require("../services/post/updatePost");
 
 const router = require("express").Router();
 
@@ -127,9 +131,27 @@ router.post(
   "/post/add-post",
   profOrProfAssistAutherization,
   addpostValidation,
-  postImageUpload.single("image"),
+  // postImageUpload.single("image"),
   addPost
 );
+//get one post
+router.get("/post/get-post/:id", profOrProfAssistAutherization, getOnePost);
+//get prof posts
+router.get("/post/get-posts", profOrProfAssistAutherization, getProfPosts);
+//delte post
+router.delete(
+  "/post/delete-post/:id",
+  profOrProfAssistAutherization,
+  deletePost
+);
+//updated Post
+router.put(
+  "/post/update-post/:id",
+  profOrProfAssistAutherization,
+  addpostValidation,
+  updatePost
+);
+
 //Logout
 router.post("/logout", profOrProfAssistAutherization, logout); //ok
 module.exports = router;
