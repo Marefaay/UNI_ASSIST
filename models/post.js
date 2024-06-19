@@ -22,7 +22,7 @@ const postSchema = new mongoose.Schema(
       ref: "prof-profAssist",
       // required: true,
     },
-   
+    generatedAt: String,
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
