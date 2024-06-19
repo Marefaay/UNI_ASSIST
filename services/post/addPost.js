@@ -34,11 +34,30 @@ const addPost = async (request, response) => {
     title: title,
     description: description,
     publisher: request.id,
-   
+    generatedAt: new Date().toLocaleString(),
   });
-
+  // console.log(post);
+  const findedPost = await postModel
+    .findOne({ _id: post[0]._id })
+    .populate("publisher", {
+      _id: 0,
+      email: 0,
+      password: 0,
+      subject: 0,
+      profilePhoto: 0,
+      addedBy: 0,
+      role: 0,
+      isAdmin: 0,
+      __v: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    });
+  // console.log(findedPost);
   //  Send response to the client
-  return response.json({ status: "Sucess", message: "Post Added Succefully", post });
- 
+  return response.json({
+    status: "Sucess",
+    message: "Post Added Succefully",
+    findedPost,
+  });
 };
 module.exports = addPost;
