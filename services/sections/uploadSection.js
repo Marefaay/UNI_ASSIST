@@ -1,12 +1,28 @@
 const path = require("path");
-const fs=require("fs")
+const fs = require("fs");
 const subjectModel = require("../../models/subject");
 const sectionModel = require("../../models/section");
 const uploadSectionToCloudinary = require("../../utils/uploadSectionToCloudnairy");
+const profOrProfAssistModel = require("../../models/prof-profAssist");
 const uploadSection = async (request, response) => {
   try {
     const { number } = request.body;
     const { id } = request.params;
+    //find prof
+    const prof = await profOrProfAssistModel.findOne({ _id: request.id });
+    //prof not exist
+    if (!prof) {
+      return response.json({ stauts: "Error", message: "Prof Is Not Exist" });
+    }
+    //find subject
+    const subject = await subjectModel.findOne({ _id: id });
+    //subject Not Found
+    if (!subject) {
+      return response.json({
+        status: "Error",
+        message: "Subject Is not Found",
+      });
+    }
     //find section
     const section = await sectionModel.findOne({ number });
     //section Exist
@@ -37,18 +53,34 @@ const uploadSection = async (request, response) => {
         url: sectionUploaded.secure_url,
         publicId: sectionUploaded.public_id,
       },
+      generatedAt: new Date().toLocaleString(),
     });
     //add section to subject
-    //find subject
-    const subject = await subjectModel.findOne({ _id: id });
+
     subject.sections.push(newSection[0]._id);
     await subject.save();
     fs.unlinkSync(filePath);
+    //find uploaded section
+    const uploadedSection = await sectionModel
+      .findOne({ _id: newSection[0]._id })
+      .populate("addedBy", {
+        _id: 0,
+        email: 0,
+        password: 0,
+        subject: 0,
+        profilePhoto: 0,
+        addedBy: 0,
+        role: 0,
+        isAdmin: 0,
+        __v: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      });
     //response
     return response.json({
       status: "Succes",
       message: "Section Uploaded Succefully",
-      newSection,
+      uploadedSection,
     });
   } catch (err) {
     return response.json({ status: "Error", message: err.message });
