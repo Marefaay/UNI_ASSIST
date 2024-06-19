@@ -1,14 +1,30 @@
 const lectureModel = require("../../models/lecture");
 const path = require("path");
-const fs=require("fs")
+const fs = require("fs");
 const uploadLectureToCloudinary = require("../../utils/uploadLectureToCloudnairy");
 const subjectModel = require("../../models/subject");
+const profOrProfAssistModel = require("../../models/prof-profAssist");
 const upload = async (request, response) => {
   try {
     const { number } = request.body;
     const { id } = request.params;
     //find lecture
     const lecture = await lectureModel.findOne({ number });
+    //find subject
+    const subject = await subjectModel.findOne({ _id: id });
+    //find prof
+    const prof = await profOrProfAssistModel.findOne({ _id: request.id });
+    //prof not exist
+    if (!prof) {
+      return response.json({ status: "Error", message: "Prof Is Not Found" });
+    }
+    //subject not eexist
+    if (!subject) {
+      return response.json({
+        status: "Error",
+        message: "Subject Is Not FOund",
+      });
+    }
     //lecture Exist
     if (lecture) {
       return response.json({
@@ -37,18 +53,36 @@ const upload = async (request, response) => {
         url: lectureUploaded.secure_url,
         publicId: lectureUploaded.public_id,
       },
+      generatedAt: new Date().toLocaleString(),
     });
     //add lecture to subject
-    //find subject
-    const subject = await subjectModel.findOne({ _id: id });
+
     subject.lectures.push(newLecture[0]._id);
     await subject.save();
     fs.unlinkSync(filePath);
+    //find uploaded Lecture
+    const uploadedlecture = await lectureModel
+      .findOne({
+        _id: newLecture[0]._id,
+      })
+      .populate("addedBy", {
+        _id: 0,
+        email: 0,
+        password: 0,
+        subject: 0,
+        profilePhoto: 0,
+        addedBy: 0,
+        role: 0,
+        isAdmin: 0,
+        __v: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      });
     //response
     return response.json({
       status: "Succes",
       message: "Lecture Uploaded Succefully",
-      newLecture,
+      uploadedlecture,
     });
   } catch (err) {
     return response.json({ status: "Error", message: err.message });
