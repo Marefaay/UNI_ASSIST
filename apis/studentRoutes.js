@@ -22,7 +22,7 @@ const downloadSection = require("../services/sections/downloadSection");
 // const s = require("../services/student/scanQRCodeForSection");
 // const scanQRCodeForSection = require("../services/student/scanQRCodeForSection");
 const scanQRCodeForLecture = require("../services/student/scanQRCodeForLecture");
-const scanQRCodeForSection = require("../services/student/scanQRCodeForSection");
+const scanQRCodeForSection = require("../services/student/scanQrCodeForSection");
 const scanQRCodeValidation = require("../middlwares/validation/scanQRCodeValidation");
 const toggleLikes = require("../services/post/toggleLikes");
 const addComment = require("../services/comment/addComment");
@@ -30,6 +30,8 @@ const addCommentValidation = require("../middlwares/validation/addCommentValidat
 const studentComments = require("../services/comment/studentComments");
 const deleteComment = require("../services/comment/deleteComents");
 const upadteComment = require("../services/comment/updateComment");
+const viewLectureAndSectionAttendanceForStudent = require("../services/student/ViewLectureAndSectionAttendanceForStudent");
+const viewAllPosts = require("../services/student/viewAllPosts");
 const router = require("express").Router();
 //Login
 router.post("/login", stuedntValidation, studentLogin);
@@ -56,10 +58,10 @@ router.post(
 );
 //View Subject Attendance
 router.get(
-  "/view-attendance",
+  "/attendance/view-attendance",
   userAutherization,
   viewAttendanceValidation,
-  viewsubjectAttendance
+  viewLectureAndSectionAttendanceForStudent
 );
 //get lecture
 router.get(
@@ -89,6 +91,8 @@ router.get(
   objectIdValidation,
   downloadSection
 );
+//View All Posts
+router.get("/posts/all-posts", userAutherization, viewAllPosts);
 //toggle post
 router.put(
   "/post/likes/toggle/:id",
