@@ -30,7 +30,7 @@ const addCommentValidation = require("../middlwares/validation/addCommentValidat
 const studentComments = require("../services/comment/studentComments");
 const deleteComment = require("../services/comment/deleteComents");
 const upadteComment = require("../services/comment/updateComment");
-const viewLectureAndSectionAttendanceForStudent = require("../services/student/ViewLectureAndSectionAttendanceForStudent");
+// const viewLectureAndSectionAttendanceForStudent = require("../services/student/ViewLectureAndSectionAttendanceForStudent");
 const viewAllPosts = require("../services/student/viewAllPosts");
 const router = require("express").Router();
 //Login
@@ -56,13 +56,13 @@ router.post(
   profilePhotoUpload.single("image"),
   profilePhoto
 );
-//View Subject Attendance
-router.get(
-  "/attendance/view-attendance",
-  userAutherization,
-  viewAttendanceValidation,
-  viewLectureAndSectionAttendanceForStudent
-);
+// //View Subject Attendance
+// router.get(
+//   "/attendance/view-attendance",
+//   userAutherization,
+//   viewAttendanceValidation,
+//   viewLectureAndSectionAttendanceForStudent
+// );
 //get lecture
 router.get(
   "/lecture/get-lecture/:id",
