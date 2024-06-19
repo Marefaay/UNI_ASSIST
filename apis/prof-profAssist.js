@@ -21,7 +21,7 @@ const uploadSection = require("../services/sections/uploadSection");
 const filesUpload = require("../middlwares/upload/subjectFilesUpload");
 const deleteSection = require("../services/sections/deleteSection");
 const updateLectureNumber = require("../services/Lectures/updateLecturenumber");
-const updateSectionNumber = require("../services/sections/updateSectionNumber");
+const updateSectionNumber = require("../services/sections/updateSectionnumber");
 const updateLecturePDF = require("../services/Lectures/updateLecturePDF");
 const updateSectionPdf = require("../services/sections/updatedSectionPdf");
 const getOnePost = require("../services/post/getOnePost");
@@ -35,13 +35,13 @@ const router = require("express").Router();
 router.post("/login", profOrProfAssistValidation, profOrProfAssistLogin); //OK
 //view lecture Attendance
 router.get(
-  "/view-lecture-attendance",
+  "/attendance/view-lecture-attendance",
   profOrProfAssistAutherization,
   viewAttendanceValidation,
   viewLectureAttendanceForProf
 ); //OK
 router.get(
-  "/view-section-attendance",
+  "/attendance/view-section-attendance",
   profOrProfAssistAutherization,
   viewAttendanceValidation,
   viewSectionAttendanceForProfOrProfAssist
