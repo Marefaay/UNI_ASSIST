@@ -7,11 +7,12 @@ const profOrProfAssistModel = require("../../models/prof-profAssist");
 const upload = async (request, response) => {
   try {
     const { number } = request.body;
-    const { id } = request.params;
+    const { title } = request.body;
+    // const { id } = request.params;
     //find lecture
     const lecture = await lectureModel.findOne({ number });
     //find subject
-    const subject = await subjectModel.findOne({ _id: id });
+    const subject = await subjectModel.findOne({ title });
     //find prof
     const prof = await profOrProfAssistModel.findOne({ _id: request.id });
     //prof not exist
@@ -47,7 +48,7 @@ const upload = async (request, response) => {
     //add lecture to db
     const newLecture = await lectureModel.insertMany({
       number: number,
-      subject: id,
+      subject: subject._id,
       addedBy: request.id,
       fileUrl: {
         url: lectureUploaded.secure_url,
@@ -77,7 +78,20 @@ const upload = async (request, response) => {
         __v: 0,
         createdAt: 0,
         updatedAt: 0,
-      });
+      }) .populate("subject", {
+        _id: 0,
+        ID: 0,
+        numberOfHours: 0,
+        lectures: 0,
+        sections: 0,
+        teachedBy: 0,
+        addedBy: 0,
+        lectureAttendance: 0,
+        sectionAttendance: 0,
+        createdAt: 0,
+        __v: 0,
+        updatedAt: 0,
+      });;
     //response
     return response.json({
       status: "Succes",
