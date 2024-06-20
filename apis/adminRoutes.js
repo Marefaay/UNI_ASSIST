@@ -44,6 +44,8 @@ const view1 = require("../services/admin/viewSectionAttendance");
 const uploadStudentFile = require("../services/admin/uploadStudentFile");
 const filesUpload = require("../middlwares/upload/subjectFilesUpload");
 const studentFileUpload = require("../middlwares/upload/studentFileUpload");
+const deleteStudentsAtSpecificLevel = require("../services/admin/deleteStudentsAtSpecificLevel");
+const levelValidation = require("../middlwares/validation/levelValidation");
 
 const router = require("express").Router();
 //Admin Registration
@@ -181,8 +183,16 @@ router.get(
 //Student file upload
 router.post(
   "/upload-student-file",
+  adminAutherization,
   studentFileUpload.single("file"),
   uploadStudentFile
+);
+//deleteStudentsAtSpecificLevel
+router.delete(
+  "/deleteStudentsAtSpecificLevel",
+  adminAutherization,
+  levelValidation,
+  deleteStudentsAtSpecificLevel
 );
 //logout
 router.post("/logout", adminAutherization, logout); //ok
