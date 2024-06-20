@@ -2,6 +2,15 @@
 const subjectModel = require("../../models/subject");
 
 const showAllSubjects = async (request, response) => {
+  //find admin
+  const admin = await adminModel.findOne({ _id: request.id });
+  //admin not exist
+  if (!admin) {
+    return response.json({
+      status: "Error",
+      message: "This Admin Is Not Find",
+    });
+  }
   //find all subjects
   const subjects = await subjectModel.find({}).populate("teachedBy");
   //find count of subjects
@@ -18,7 +27,6 @@ const showAllSubjects = async (request, response) => {
       status: "Success",
       subjectsCount,
       message: subjects,
-     
     });
   }
 };
