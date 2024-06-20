@@ -1,9 +1,9 @@
 const subjectModel = require("../../models/subject");
 
 const viewSectionAttendance = async (request, response) => {
-  const { title } = request.body;
+  const { id } = request.params;
   //find subject
-  const subject = await subjectModel.findOne({ title: title });
+  const subject = await subjectModel.findOne({ _id: id });
   let attendanceArray = [];
 
   //subject not found
@@ -13,7 +13,7 @@ const viewSectionAttendance = async (request, response) => {
   //   subject Is Found
   subject.sectionAttendance.forEach(async (std) => {
     const row = {
-      subject: title,
+      subject: subject.title,
       type: "section",
       name: std.student,
       week1: "absent",
