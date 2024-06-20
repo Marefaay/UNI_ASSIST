@@ -41,6 +41,9 @@ const deleteGraduationStuedntValidation = require("../middlwares/validation/dele
 const deleteAdminValidation = require("../middlwares/validation/deleteAdminVlidation.");
 const view = require("../services/admin/viewLectureAttendance");
 const view1 = require("../services/admin/viewSectionAttendance");
+const uploadStudentFile = require("../services/admin/uploadStudentFile");
+const filesUpload = require("../middlwares/upload/subjectFilesUpload");
+const studentFileUpload = require("../middlwares/upload/studentFileUpload");
 
 const router = require("express").Router();
 //Admin Registration
@@ -168,12 +171,18 @@ router.get(
   viewAttendanceValidation,
   viewLectureAttendance
 );
-//view section attendance
+//view section attendace
 router.get(
   "/attendance/view-section-attendance",
   adminAutherization,
   viewAttendanceValidation,
   viewSectionAttendance
+);
+//Student file upload
+router.post(
+  "/upload-student-file",
+  studentFileUpload.single("file"),
+  uploadStudentFile
 );
 //logout
 router.post("/logout", adminAutherization, logout); //ok
