@@ -7,7 +7,8 @@ const profOrProfAssistModel = require("../../models/prof-profAssist");
 const uploadSection = async (request, response) => {
   try {
     const { number } = request.body;
-    const { id } = request.params;
+    const { title } = request.body;
+    // const { id } = request.params;
     //find prof
     const prof = await profOrProfAssistModel.findOne({ _id: request.id });
     //prof not exist
@@ -15,7 +16,7 @@ const uploadSection = async (request, response) => {
       return response.json({ stauts: "Error", message: "Prof Is Not Exist" });
     }
     //find subject
-    const subject = await subjectModel.findOne({ _id: id });
+    const subject = await subjectModel.findOne({ title });
     //subject Not Found
     if (!subject) {
       return response.json({
@@ -47,7 +48,7 @@ const uploadSection = async (request, response) => {
     //add section to db
     const newSection = await sectionModel.insertMany({
       number: number,
-      subject: id,
+      subject: subject._id,
       addedBy: request.id,
       fileUrl: {
         url: sectionUploaded.secure_url,
@@ -74,6 +75,21 @@ const uploadSection = async (request, response) => {
         isAdmin: 0,
         __v: 0,
         createdAt: 0,
+        updatedAt: 0,
+      })
+
+      .populate("subject", {
+        _id: 0,
+        ID: 0,
+        numberOfHours: 0,
+        lectures: 0,
+        sections: 0,
+        teachedBy: 0,
+        addedBy: 0,
+        lectureAttendance: 0,
+        sectionAttendance: 0,
+        createdAt: 0,
+        __v: 0,
         updatedAt: 0,
       });
     //response
