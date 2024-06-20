@@ -10,8 +10,8 @@ const profilePhoto = require("../services/student/profilePhoto");
 // const scanQRCodeSection = require("../services/student/scanQrCodeForSection");
 // const scan = require("../services/student/scan");
 // const scanQR = require("../services/student/scanQRCodeForLecture");
-const viewAttendance = require("../services/student/viewAttendanceForStudent");
-const viewsubjectAttendance = require("../services/student/viewAttendanceForStudent");
+const viewAttendance = require("../services/student/ViewSectionAttendanceForStudent");
+const viewsubjectAttendance = require("../services/student/ViewSectionAttendanceForStudent");
 const logout = require("../services/student/logout");
 const downloadLecture = require("../services/Lectures/downloadLecture");
 const objectIdValidation = require("../middlwares/validation/objectIdValdation");
@@ -32,6 +32,9 @@ const deleteComment = require("../services/comment/deleteComents");
 const upadteComment = require("../services/comment/updateComment");
 // const viewLectureAndSectionAttendanceForStudent = require("../services/student/ViewLectureAndSectionAttendanceForStudent");
 const viewAllPosts = require("../services/student/viewAllPosts");
+// const viewLectureAndSectionAttendanceForStudent = require("../services/student/viewLectureAttendanceForStudent");
+const viewSectionAttendanceForStudent = require("../services/student/ViewSectionAttendanceForStudent");
+const viewLecturAttendanceForStudent = require("../services/student/viewLectureAttendanceForStudent");
 const router = require("express").Router();
 //Login
 router.post("/login", stuedntValidation, studentLogin);
@@ -56,13 +59,20 @@ router.post(
   profilePhotoUpload.single("image"),
   profilePhoto
 );
-// //View Subject Attendance
-// router.get(
-//   "/attendance/view-attendance",
-//   userAutherization,
-//   viewAttendanceValidation,
-//   viewLectureAndSectionAttendanceForStudent
-// );
+//view Section Attendance
+router.get(
+  "/attendance/view-section-attendance",
+  userAutherization,
+  viewAttendanceValidation,
+  viewSectionAttendanceForStudent
+);
+//View Subject Attendance
+router.get(
+  "/attendance/view-lecture-attendance",
+  userAutherization,
+  viewAttendanceValidation,
+  viewLecturAttendanceForStudent
+);
 //get lecture
 router.get(
   "/lecture/get-lecture/:id",
