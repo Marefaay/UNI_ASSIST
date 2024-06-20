@@ -21,7 +21,7 @@ const uploadSection = require("../services/sections/uploadSection");
 const filesUpload = require("../middlwares/upload/subjectFilesUpload");
 const deleteSection = require("../services/sections/deleteSection");
 const updateLectureNumber = require("../services/Lectures/updateLecturenumber");
-const updateSectionNumber = require("../services/sections/updateSectionNumber");
+const updateSectionNumber = require("../services/sections/updateSectionnumber");
 const updateLecturePDF = require("../services/Lectures/updateLecturePDF");
 const updateSectionPdf = require("../services/sections/updatedSectionPdf");
 const getOnePost = require("../services/post/getOnePost");
@@ -35,15 +35,15 @@ const router = require("express").Router();
 router.post("/login", profOrProfAssistValidation, profOrProfAssistLogin); //OK
 //view lecture Attendance
 router.get(
-  "/attendance/view-lecture-attendance",
+  "/attendance/view-lecture-attendance/:id",
   profOrProfAssistAutherization,
-  viewAttendanceValidation,
+  objectIdValidation,
   viewLectureAttendanceForProf
 ); //OK
 router.get(
-  "/attendance/view-section-attendance",
+  "/attendance/view-section-attendance/:id",
   profOrProfAssistAutherization,
-  viewAttendanceValidation,
+  objectIdValidation,
   viewSectionAttendanceForProfOrProfAssist
 ); //ok
 router.post(
@@ -61,10 +61,9 @@ router.get(
 );
 //add lecture
 router.post(
-  "/lecture/add-lecture/:id",
+  "/lecture/add-lectures",
   profOrProfAssistAutherization,
 
-  objectIdValidation,
   filesUpload.single("file"),
   upload
 );
@@ -92,9 +91,9 @@ router.delete(
 );
 //add Section
 router.post(
-  "/section/add-section/:id",
+  "/section/add-section",
   profOrProfAssistAutherization,
-  objectIdValidation,
+
   filesUpload.single("file"),
   uploadSection
 );
