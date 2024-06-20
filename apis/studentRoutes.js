@@ -22,7 +22,7 @@ const downloadSection = require("../services/sections/downloadSection");
 // const s = require("../services/student/scanQRCodeForSection");
 // const scanQRCodeForSection = require("../services/student/scanQRCodeForSection");
 const scanQRCodeForLecture = require("../services/student/scanQRCodeForLecture");
-const scanQRCodeForSection = require("../services/student/scanQRCodeForSection");
+const scanQRCodeForSection = require("../services/student/scanQrCodeForSection");
 const scanQRCodeValidation = require("../middlwares/validation/scanQRCodeValidation");
 const toggleLikes = require("../services/post/toggleLikes");
 const addComment = require("../services/comment/addComment");
@@ -35,6 +35,7 @@ const viewAllPosts = require("../services/student/viewAllPosts");
 // const viewLectureAndSectionAttendanceForStudent = require("../services/student/viewLectureAttendanceForStudent");
 const viewSectionAttendanceForStudent = require("../services/student/ViewSectionAttendanceForStudent");
 const viewLecturAttendanceForStudent = require("../services/student/viewLectureAttendanceForStudent");
+const viewAllSubjectsForStudent = require("../services/student/viewAllSubjectsForStundet");
 const router = require("express").Router();
 //Login
 router.post("/login", stuedntValidation, studentLogin);
@@ -134,6 +135,12 @@ router.put(
   objectIdValidation,
   addCommentValidation,
   upadteComment
+);
+//view all subjects
+router.get(
+  "/subjects/view-all-subjects",
+  userAutherization,
+  viewAllSubjectsForStudent
 );
 //Logout
 router.post("/logout", userAutherization, logout);
