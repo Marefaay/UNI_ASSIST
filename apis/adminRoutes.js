@@ -37,7 +37,7 @@
   const getAllYears = require("../services/years/getAllYears");
   const oneYear = require("../services/years/oneYear");
   const deleteStudentValidation = require("../middlwares/validation/deleteStudentvalidation");
-  const deleteGraduationStuedntValidation = require("../middlwares/validation/deleteGradutionStudentValidation");
+  const deleteGraduationStuedntValidation = require("../middlwares/validation/deleteGradutionStudentvalidation");
   const deleteAdminValidation = require("../middlwares/validation/deleteAdminVlidation.");
   const view = require("../services/admin/viewLectureAttendance");
   const view1 = require("../services/admin/viewSectionAttendance");
@@ -49,7 +49,7 @@
   const showAllProfOrProfAssist = require("../services/admin/showAllProfOrProfAssist");
   const uploadAcadmicStaffFile = require("../services/admin/uploadAcadmicStaffFile");
   const deleteAcadmicStaff = require("../services/admin/deleteAcadmicStaff");
-  const deleteProfOrProfAssistValidation = require("../middlwares/validation/deleteAcadmicStaffvalidation");
+  const deleteProfOrProfAssistValidation = require("../middlwares/validation/deleteAcadmicStaffValidation");
 
   const router = require("express").Router();
   //Admin Registration
