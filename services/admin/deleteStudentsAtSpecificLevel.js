@@ -2,6 +2,7 @@ const adminModel = require("../../models/admin");
 const commentModel = require("../../models/comment");
 const postModel = require("../../models/post");
 const studentModel = require("../../models/student");
+const removeFromCloudinary = require("../../utils/removeFromCloudinary");
 const deleteStudentsAtSpecificLevel = async (request, response) => {
   try {
     const { level } = request.body;
@@ -25,10 +26,9 @@ const deleteStudentsAtSpecificLevel = async (request, response) => {
     //remove images from cloudniry
     students.forEach(async (std) => {
       await removeFromCloudinary(std.profilePhoto.publicId);
-    });
-    //delete comments
+       //delete comments
     //student comments
-    const studentComments = await commentModel.find({ student: student._id });
+    const studentComments = await commentModel.find({ student: std._id });
     console.log(studentComments);
     //post comments
     const posts = await postModel.find({});
@@ -48,13 +48,13 @@ const deleteStudentsAtSpecificLevel = async (request, response) => {
           }
         }
       });
-      await commentModel.deleteMany({ student: student._id });
+      await commentModel.deleteMany({ student: std._id });
 
       //check if student likes posts
-      const studentLikesPosts = post.likes.includes(student._id);
+      const studentLikesPosts = post.likes.includes(std._id);
       if (studentLikesPosts) {
         //find index of student
-        let indexOfStudent = post.likes.indexOf(student._id);
+        let indexOfStudent = post.likes.indexOf(std._id);
         // if found
         if (indexOfStudent > -1) {
           //remove student
@@ -66,6 +66,8 @@ const deleteStudentsAtSpecificLevel = async (request, response) => {
 
     //student exist
     await studentModel.deleteMany({ level: level });
+    });
+   
     //response
     return response.json({
       status: "Success",
