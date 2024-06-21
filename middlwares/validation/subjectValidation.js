@@ -8,7 +8,7 @@ const schema = joi.object({
     .string()
     .required()
     
-    .pattern(/([a-zA-Z]{3})(\d{3,4})/),
+    .pattern(/([a-zA-Z]{2,3})(\d{3,4})/),
   numberOfHours: joi.number().required().max(3),
   // teachedBy: joi.required(),
 });
