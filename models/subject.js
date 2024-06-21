@@ -14,8 +14,7 @@ const subjectSchema = new mongoose.Schema(
     },
     ID: {
       type: String,
-      minlength: 4,
-      maxlength: 5,
+     
       unique: true,
       required: true,
     },
