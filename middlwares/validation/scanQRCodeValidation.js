@@ -6,10 +6,7 @@ const schema = joi.object({
   type: joi.string().required(),
   subjectName: joi.string().required().min(3).max(25),
   week: joi.string().required(),
-  department: joi.string().required(),
-  
-  location: joi.string().required(),
-  lecturereName: joi.string().required(),
+ 
 });
 //bussines logic
 const scanQRCodeValidation = async (request, response, next) => {
