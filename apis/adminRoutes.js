@@ -47,6 +47,7 @@ const studentFileUpload = require("../middlwares/upload/studentFileUpload");
 const deleteStudentsAtSpecificLevel = require("../services/admin/deleteStudentsAtSpecificLevel");
 const levelValidation = require("../middlwares/validation/levelValidation");
 const showAllProfOrProfAssist = require("../services/admin/showAllProfOrProfAssist");
+const uploadAcadmicStaffFile = require("../services/admin/uploadAcadmicStaffFile");
 
 const router = require("express").Router();
 //Admin Registration
@@ -187,6 +188,12 @@ router.post(
   adminAutherization,
   studentFileUpload.single("file"),
   uploadStudentFile
+);
+router.post(
+  "/upload-acadmic-staff-file",
+  adminAutherization,
+  studentFileUpload.single("file"),
+  uploadAcadmicStaffFile
 );
 //deleteStudentsAtSpecificLevel
 router.delete(
