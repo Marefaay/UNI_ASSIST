@@ -2,7 +2,7 @@ const path = require("path");
 const xlsx = require("xlsx");
 const bcrypt = require("bcrypt");
 const studentModel = require("../../models/student");
-
+const fs=require("fs")
 const uploadStudentFile = async (request, response) => {
   // No File in request
   if (!request.file) {
@@ -70,6 +70,7 @@ const uploadStudentFile = async (request, response) => {
   if (errors.length > 0) {
     return response.json({ status: "Error", message: errors });
   }
+  fs.unlinkSync(filePath);
 
   // Successful response
   response.json({
