@@ -2,15 +2,7 @@ const studentModel = require("../../models/student");
 const subjectModel = require("../../models/subject");
 
 const scanQRCodeForLecture = async (request, response) => {
-  const {
-    type,
-    subjectName,
-    week,
- 
-    department,
-    location,
-    lecturereName,
-  } = request.body;
+  const { type, subjectName, week } = request.body;
   //find subject
   //find subject that want to record attendance for it
   const subject = await subjectModel.findOne({
@@ -39,10 +31,6 @@ const scanQRCodeForLecture = async (request, response) => {
               lectureAttendance: {
                 student: student.name,
                 week: week,
-              
-                department: department,
-                location: location,
-                lecturerName: lecturereName,
               },
             },
           },
@@ -85,10 +73,6 @@ const scanQRCodeForLecture = async (request, response) => {
               lectureAttendance: {
                 student: student.name,
                 week: week,
-               
-                department: department,
-                location: location,
-                lecturerName: lecturereName,
               },
             },
           },
