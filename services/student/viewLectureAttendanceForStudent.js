@@ -1,109 +1,83 @@
 const studentModel = require("../../models/student");
 const subjectModel = require("../../models/subject");
 
-const scanQRCodeForLecture = async (request, response) => {
-  const {
-    type,
-    subjectName,
-    week,
- 
-    department,
-    location,
-    lecturereName,
-  } = request.body;
-  //find subject
-  //find subject that want to record attendance for it
-  const subject = await subjectModel.findOne({
-    title: subjectName,
-  });
+const viewLectureAttendanceForStudent = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const errors = [];
+    const attendanceArray = [];
 
-  if (subject) {
-    //find student that want to record attendance
+    // Find student
     const student = await studentModel.findOne({ _id: request.id });
-    console.log(student);
     if (!student) {
       return response.json({
         status: "Error",
         message: "Student Is Not Found",
       });
     }
-    //check if type is lecture
-    if (type.toLowerCase() === "lecture") {
-      //check if there is an attendance for lecture
-      if (subject.lectureAttendance.length === 0) {
-        //there is no attendance for lecture so add student to it
-        await subjectModel.findOneAndUpdate(
-          { title: subject.title },
-          {
-            $push: {
-              lectureAttendance: {
-                student: student.name,
-                week: week,
-              
-                department: department,
-                location: location,
-                lecturerName: lecturereName,
-              },
-            },
-          },
-          { new: true }
-        );
 
-        return response.json({
-          status: "Success",
-          message: "Attendance Recorded Successfully",
-        });
-      } else {
-        //loop for all students in lecture attendance
-        for (const std of subject.lectureAttendance) {
-          //check if student that want to record attendance is already exist
-          if (std.student === student.name) {
-            //loop for the weeks that he record attendance on it
-            for (const w of std.week) {
-              //check if student redor attendance for this week
-              if (w === week) {
-                return response.json({
-                  status: "Error",
-                  message: "You have already recorded attendance for this week",
-                });
-              }
-            }
-            //if not record attendance
-            std.week.push(week);
-            await subject.save();
-            return response.json({
-              status: "Success",
-              message: "Attendance Recorded Successfully",
-            });
-          }
-        }
-        //if student is not reocrd attendance before
-        await subjectModel.findOneAndUpdate(
-          { title: subject.title },
-          {
-            $push: {
-              lectureAttendance: {
-                student: student.name,
-                week: week,
-               
-                department: department,
-                location: location,
-                lecturerName: lecturereName,
-              },
-            },
-          },
-          { new: true }
-        );
-        return response.json({
-          status: "Success",
-          message: "Attendance Recorded Successfully",
-        });
-      }
+    // Find subject
+    const subject = await subjectModel.findOne({ _id: id });
+    if (!subject) {
+      return response.json({
+        status: "Error",
+        message: "Subject Is Not Found",
+      });
     }
-  } else {
-    //check if there is an attendance for section
 
-    return response.json({ status: "Error", message: "Subject Not Found" });
+    // Check lecture attendance
+    let studentFound = false;
+    subject.lectureAttendance.forEach((std) => {
+      if (std.student === student.name) {
+        studentFound = true;
+        const lectureRow = {
+          subject: subject.title,
+          type: "Lecture",
+          name: student.name,
+          week1: "absent",
+          week2: "absent",
+          week3: "absent",
+          week4: "absent",
+          week5: "absent",
+          week6: "absent",
+          week7: "absent",
+          total: 0,
+        };
+
+        // Record attendance
+        std.week.forEach((week) => {
+          if (week == 1) lectureRow.week1 = "present";
+          if (week == 2) lectureRow.week2 = "present";
+          if (week == 3) lectureRow.week3 = "present";
+          if (week == 4) lectureRow.week4 = "present";
+          if (week == 5) lectureRow.week5 = "present";
+          if (week == 6) lectureRow.week6 = "present";
+          if (week == 7) lectureRow.week7 = "present";
+          lectureRow.total++;
+        });
+
+        attendanceArray.push(lectureRow);
+      }
+    });
+
+    if (!studentFound) {
+      errors.push(`Student ${student.name} Didn't Attend Any Lecture`);
+    }
+
+    if (errors.length > 0) {
+      return response.json({ status: "Error", message: errors });
+    }
+
+    // Successful response
+    return response.json({
+      status: "Success",
+      message: "Attendance Retrieved Successfully",
+      attendanceArray,
+    });
+
+  } catch (err) {
+    return response.json({ status: "Error", message: err.message });
   }
 };
-module.exports = scanQRCodeForLecture;
+
+module.exports = viewLectureAttendanceForStudent;
