@@ -37,7 +37,7 @@
   const getAllYears = require("../services/years/getAllYears");
   const oneYear = require("../services/years/oneYear");
   const deleteStudentValidation = require("../middlwares/validation/deleteStudentvalidation");
-  const deleteGraduationStuedntValidation = require("../middlwares/validation/deleteGradutionStudentvalidation");
+  const deleteGraduationStuedntValidation = require("../middlwares/validation/deleteGradutionStudentValidation");
   const deleteAdminValidation = require("../middlwares/validation/deleteAdminVlidation.");
   const view = require("../services/admin/viewLectureAttendance");
   const view1 = require("../services/admin/viewSectionAttendance");
