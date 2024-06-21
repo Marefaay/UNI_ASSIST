@@ -71,7 +71,7 @@ const deleteStudentsAtSpecificLevel = async (request, response) => {
     //response
     return response.json({
       status: "Success",
-      message: `All Students with Level ${level} are retrived Succfully `,
+      message: `All Students With Level ${level} Are Deleted Succfully `,
       students,
     });
   } catch (err) {
