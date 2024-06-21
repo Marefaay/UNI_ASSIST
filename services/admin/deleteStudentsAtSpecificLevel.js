@@ -1,4 +1,6 @@
 const adminModel = require("../../models/admin");
+const commentModel = require("../../models/comment");
+const postModel = require("../../models/post");
 const studentModel = require("../../models/student");
 const deleteStudentsAtSpecificLevel = async (request, response) => {
   try {
