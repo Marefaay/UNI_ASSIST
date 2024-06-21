@@ -6,7 +6,7 @@ const scanQRCodeForSection = async (request, response) => {
     type,
     subjectName,
     week,
-    group,
+   
     department,
     location,
     lecturereName,
@@ -38,7 +38,7 @@ const scanQRCodeForSection = async (request, response) => {
               sectionAttendance: {
                 student: student.name,
                 week: week,
-                group: group,
+              
                 department: department,
                 location: location,
                 lecturerName: lecturereName,
@@ -84,7 +84,7 @@ const scanQRCodeForSection = async (request, response) => {
               sectionAttendance: {
                 student: student.name,
                 week: week,
-                group: group,
+                
                 department: department,
                 location: location,
                 lecturerName: lecturereName,
