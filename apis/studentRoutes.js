@@ -62,16 +62,16 @@ router.post(
 );
 //view Section Attendance
 router.get(
-  "/attendance/view-section-attendance",
+  "/attendance/view-section-attendance/:id",
   userAutherization,
-  viewAttendanceValidation,
+  objectIdValidation,
   viewSectionAttendanceForStudent
 );
 //View Subject Attendance
 router.get(
-  "/attendance/view-lecture-attendance",
+  "/attendance/view-lecture-attendance/:id",
   userAutherization,
-  viewAttendanceValidation,
+  objectIdValidation,
   viewLecturAttendanceForStudent
 );
 //get lecture
