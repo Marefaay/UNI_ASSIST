@@ -3,163 +3,90 @@ const subjectModel = require("../../models/subject");
 
 const scanQrCode = async (request, response) => {
   const { type, subjectName, week } = request.body;
-   //week number greaater than 7
-  if (week > 7) {
+
+  // Validate week number
+  if (week < 1 || week > 7) {
     return response.json({
       status: "Error",
-      message: "This Number Is Not Valid minum 7",
+      message: "Week number must be between 1 and 7",
     });
   }
-  //find subject
-  //find subject that want to record attendance for it
-  const subject = await subjectModel.findOne({
-    title: subjectName,
-  });
 
-  if (subject) {
-    //find student that want to record attendance
+  try {
+    // Find subject
+    const subject = await subjectModel.findOne({ title: subjectName });
+    if (!subject) {
+      return response.json({
+        status: "Error",
+        message: "Subject Not Found",
+      });
+    }
+
+    // Find student
     const student = await studentModel.findOne({ _id: request.id });
-    console.log(student);
     if (!student) {
       return response.json({
         status: "Error",
-        message: "Student Is Not Found",
+        message: "Student Not Found",
       });
     }
-    //check if type is section
-    if (type.toLowerCase() === "section") {
-      //check if there is an attendance for section
-      if (subject.sectionAttendance.length === 0) {
-        //there is no attendance for lecture so add student to it
-        await subjectModel.findOneAndUpdate(
-          { title: subject.title },
-          {
-            $push: {
-              sectionAttendance: {
-                student: student.name,
-                week: week,
-              },
-            },
-          },
-          { new: true }
-        );
-console.log("Section Attendance recoreded succrgull")
-        return response.json({
-          status: "Success",
-          message: "Attendance Recorded Successfully",
-        });
-      } else {
-        //loop for all students in section attendance
-        for (const std of subject.sectionAttendance) {
-          //check if student that want to record attendance is already exist
-          if (std.student === student.name) {
-            //loop for the weeks that he record attendance on it
-            for (const w of std.week) {
-              //check if student redor attendance for this week
-              if (w === week) {
-                return response.json({
-                  status: "Error",
-                  message: "You have already recorded attendance for this week",
-                });
-              }
-            }
-            //if not record attendance
-            std.week.push(week);
-            await subject.save();
-            return response.json({
-              status: "Success",
-              message: "Attendance Recorded Successfully",
-            });
-          }
-        }
-        //if student is not reocrd attendance before
-        await subjectModel.findOneAndUpdate(
-          { title: subject.title },
-          {
-            $push: {
-              sectionAttendance: {
-                student: student.name,
-                week: week,
-              },
-            },
-          },
-          { new: true }
-        );
-        return response.json({
-          status: "Success",
-          message: "Attendance Recorded Successfully",
-        });
-      }
-    }
-    //check if type is lecture
-    if (type.toLowerCase() === "lecture") {
-      //check if there is an attendance for lecture
-      if (subject.lectureAttendance.length === 0) {
-        //there is no attendance for lecture so add student to it
-        await subjectModel.findOneAndUpdate(
-          { title: subject.title },
-          {
-            $push: {
-              lectureAttendance: {
-                student: student.name,
-                week: week,
-              },
-            },
-          },
-          { new: true }
-        );
-console.log("lecture attendance recodred succfully")
-        return response.json({
-          status: "Success",
-          message: "Attendance Recorded Successfully",
-        });
-      } else {
-        //loop for all students in lecture attendance
-        for (const std of subject.lectureAttendance) {
-          //check if student that want to record attendance is already exist
-          if (std.student === student.name) {
-            //loop for the weeks that he record attendance on it
-            for (const w of std.week) {
-              //check if student redor attendance for this week
-              if (w === week) {
-                return response.json({
-                  status: "Error",
-                  message: "You have already recorded attendance for this week",
-                });
-              }
-            }
-            //if not record attendance
-            std.week.push(week);
-            await subject.save();
-            return response.json({
-              status: "Success",
-              message: "Attendance Recorded Successfully",
-            });
-          }
-        }
-        //if student is not reocrd attendance before
-        await subjectModel.findOneAndUpdate(
-          { title: subject.title },
-          {
-            $push: {
-              lectureAttendance: {
-                student: student.name,
-                week: week,
-              },
-            },
-          },
-          { new: true }
-        );
-        return response.json({
-          status: "Success",
-          message: "Attendance Recorded Successfully",
-        });
-      }
-    }
-  } else {
-    //check if there is an attendance for section
 
-    return response.json({ status: "Error", message: "Subject Not Found" });
+    // Function to record attendance
+    const recordAttendance = async (attendanceType) => {
+      let attendance =
+        attendanceType === "section"
+          ? subject.sectionAttendance
+          : subject.lectureAttendance;
+      let attendanceField =
+        attendanceType === "section"
+          ? "sectionAttendance"
+          : "lectureAttendance";
+
+      // Check if the student has already recorded attendance for this week
+      let studentRecord = attendance.find(
+        (record) => record.student === student.name
+      );
+      if (studentRecord) {
+        if (studentRecord.week.includes(week)) {
+          return response.json({
+            status: "Error",
+            message: `You have already recorded attendance for week ${week}`,
+          });
+        } else {
+          studentRecord.week.push(week);
+        }
+      } else {
+        // Add new attendance record for the student
+        attendance.push({ student: student.name, week: [week] });
+      }
+
+      // Save the updated subject
+      await subjectModel.findOneAndUpdate(
+        { title: subject.title },
+        { $set: { [attendanceField]: attendance } },
+        { new: true }
+      );
+
+      return response.json({
+        status: "Success",
+        message: "Attendance Recorded Successfully",
+      });
+    };
+
+    // Record attendance based on the type
+    if (type.toLowerCase() === "section") {
+      return await recordAttendance("section");
+    } else if (type.toLowerCase() === "lecture") {
+      return await recordAttendance("lecture");
+    } else {
+      return response.json({
+        status: "Error",
+        message: "Invalid type. Must be either 'section' or 'lecture'",
+      });
+    }
+  } catch (err) {
+    return response.json({ status: "Error", message: err.message });
   }
 };
+
 module.exports = scanQrCode;
