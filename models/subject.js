@@ -53,12 +53,12 @@ const subjectSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Section'
     }],
-    teachedBy: {
-      type: [mongoose.Types.ObjectId],
-      // required: true,
+    // teachedBy: {
+    //   type: [mongoose.Types.ObjectId],
+    //   // required: true,
 
-      ref: "prof-profAssist",
-    },
+    //   ref: "prof-profAssist",
+    // },
     addedBy: {
       type: String,
       ref: "Admin",
