@@ -1,7 +1,14 @@
+const adminModel = require("../../models/admin");
 const semesterModel = require("../../models/semster");
 
 const getAllSemsters = async (request, response) => {
   try {
+    //find Admin
+    const admin = await adminModel.findOne({ _id: request.id });
+    //admin is not exist
+    if (!admin) {
+      return response.json({ status: "Error", message: "Admin Is Not Found" });
+    }
     ///find all semsters
     const semesters = await semesterModel.find({}).populate("subjects", {
       lectureAttendance: 0,
