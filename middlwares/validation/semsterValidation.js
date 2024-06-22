@@ -1,7 +1,7 @@
 const joi = require("joi");
 //schema
 const schema = joi.object({
-  semesterNo: joi.number().required().min(1).max(3),
+  semesterNo: joi.number().required().min(1).max(2),
   yearNo: joi.number().required().min(1).max(4),
   subjects: joi.array().required().min(5).max(6),
 });
