@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const lectureSchema = new mongoose.Schema({
   number: {
     type: Number,
+     min: 1,
+    max: 8,
     required: true,
   },
   subject: {
