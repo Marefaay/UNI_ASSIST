@@ -4,7 +4,7 @@ const semesterSchema = new mongoose.Schema({
   semesterNo: {
     type: Number,
     min: 1,
-    max: 3,
+    max: 2,
     required: true,
   },
   yearNo: {
