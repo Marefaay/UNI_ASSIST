@@ -9,10 +9,14 @@ const upload = async (request, response) => {
     const { number } = request.body;
     const { title } = request.body;
     // const { id } = request.params;
-    //find lecture
-    const lecture = await lectureModel.findOne({ number });
     //find subject
     const subject = await subjectModel.findOne({ title });
+    //find lecture
+    const lecture = await lectureModel.findOne({
+      number,
+      subject: subject._id,
+    });
+
     //find prof
     const prof = await profOrProfAssistModel.findOne({ _id: request.id });
     //prof not exist
@@ -78,7 +82,8 @@ const upload = async (request, response) => {
         __v: 0,
         createdAt: 0,
         updatedAt: 0,
-      }) .populate("subject", {
+      })
+      .populate("subject", {
         _id: 0,
         ID: 0,
         numberOfHours: 0,
@@ -91,7 +96,7 @@ const upload = async (request, response) => {
         createdAt: 0,
         __v: 0,
         updatedAt: 0,
-      });;
+      });
     //response
     return response.json({
       status: "Succes",
