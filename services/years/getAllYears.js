@@ -1,7 +1,14 @@
+const adminModel = require("../../models/admin");
 const yearModel = require("../../models/years");
 
 const getAllYears = async (request, response) => {
   try {
+    //find admin
+    const admin = await adminModel.findOne({ _id: request.id });
+    //admin not exist
+    if (!admin) {
+      return response.json({ status: "Error", message: "Admin Is Not Found" });
+    }
     //find years
     const years = await yearModel.find({}).populate("semesters");
     console.log(years);
