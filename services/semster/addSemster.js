@@ -8,7 +8,7 @@ const addSemster = async (request, response) => {
     const year = await yearModel.findOne({ yearNo: yearNo });
     ///find semseter
     // console.log(year);
-    const semesterExists = await semesterModel.findOne({ semesterNo });
+    const semesterExists = await semesterModel.findOne({ semesterNo, yearNo });
     if (semesterExists) {
       return response.json({ status: "ُError", message: "Semster is exist" });
     }
