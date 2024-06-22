@@ -16,6 +16,9 @@ const deleteYear = async (request, response) => {
       //delete subjects from semster
       semester.subjects.forEach(async (subject) => {
         // const subject = await subjectModel.findOne({ _id: subject });
+        //delete lectures
+        await lectureModel.deleteOne({ subject: subject });
+        //delete subject
         await subjectModel.deleteOne({ _id: subject });
       });
       //delete semster from db
