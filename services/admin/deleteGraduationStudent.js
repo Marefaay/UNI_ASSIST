@@ -1,6 +1,7 @@
 //ok
 const gradautionStudentModel = require("../../models/gaduationStudent");
 const removeFromCloudinary = require("../../utils/removeFromCloudinary");
+const commentModel = require("../../models/comment");
 
 const deleteGrduationStudent = async (request, response) => {
   const { email } = request.body;
