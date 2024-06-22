@@ -13,7 +13,7 @@ const showAllSubjects = async (request, response) => {
     });
   }
   //find all subjects
-  const subjects = await subjectModel.find({}).populate("teachedBy");
+  const subjects = await subjectModel.find({});
   //find count of subjects
   const subjectsCount = await subjectModel.find({}).count();
   if (subjects.length == 0) {
