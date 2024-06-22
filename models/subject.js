@@ -7,7 +7,7 @@ const subjectSchema = new mongoose.Schema(
     title: {
       type: String,
       minlength: 3,
-      maxlength: 25,
+      maxlength: 30,
       trim: true,
 
       required: true,
