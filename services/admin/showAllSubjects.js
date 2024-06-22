@@ -1,5 +1,6 @@
 //ok
 const subjectModel = require("../../models/subject");
+const adminModel = require("../../models/admin");
 
 const showAllSubjects = async (request, response) => {
   //find admin
