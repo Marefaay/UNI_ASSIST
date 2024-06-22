@@ -4,7 +4,7 @@ const joi = require("joi");
 //schema
 const schema = joi.object({
   type: joi.string().required(),
-  subjectName: joi.string().required().min(3).max(25),
+  subjectName: joi.string().required().min(3).max(30),
   week: joi.string().required(),
  
 });
