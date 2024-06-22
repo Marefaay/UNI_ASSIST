@@ -1,6 +1,7 @@
 const semesterModel = require("../../models/semster");
 const yearModel = require("../../models/years");
 const subjectModel = require("../../models/subject");
+const lectureModel = require("../../models/lecture");
 
 const deleteSemster = async (request, response) => {
   try {
@@ -36,7 +37,9 @@ const deleteSemster = async (request, response) => {
     //delete subjects from semster
     semester.subjects.forEach(async (subject) => {
       // const subject = await subjectModel.findOne({ _id: subject });
-      
+      //delete lectures
+      await lectureModel.deleteOne({ subject: subject });
+      ///delete subject from db
       await subjectModel.deleteOne({ _id: subject });
     });
     // Remove the semester from the semesterModel
