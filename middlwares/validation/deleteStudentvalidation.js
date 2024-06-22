@@ -5,7 +5,7 @@ const schema = joi.object({
     .string()
     .required()
     .email({ minDomainSegments: 1, tlds: { allow: ["eg"] } })
-    .pattern(/^([a-zA-Z]{3,})?(\d{4})(@fci.bu.edu.eg)/),
+    .pattern(/^([a-zA-Z]{3,})?(\d{5,6})(@fci.bu.edu.eg)/),
 });
 //Bussiness Logic
 const deleteStudentValidation = async (request, response, next) => {
