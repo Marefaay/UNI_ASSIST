@@ -3,7 +3,7 @@ const xlsx = require("xlsx");
 const bcrypt = require("bcrypt");
 const studentModel = require("../../models/student");
 const profOrProfAssistModel = require("../../models/prof-profAssist");
-const fs=require("fs")
+const fs = require("fs");
 const uploadAcadmicStaffFile = async (request, response) => {
   // No File in request
   if (!request.file) {
@@ -49,13 +49,15 @@ const uploadAcadmicStaffFile = async (request, response) => {
 
           const salt = await bcrypt.genSalt(4);
           const hashedPassword = await bcrypt.hash(plainPassword, salt);
-
+          const subjects = ASMember.subject
+            ? ASMember.subject.split(",").map((sub) => sub.trim())
+            : [];
           // Create the ASMember record
           await profOrProfAssistModel.create({
             name: ASMember.name,
             email: ASMember.email,
             password: hashedPassword,
-            subject: ASMember.subject,
+            subject: subjects,
             role: ASMember.role,
           });
         } else {
