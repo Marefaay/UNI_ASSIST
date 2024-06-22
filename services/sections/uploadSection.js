@@ -25,7 +25,10 @@ const uploadSection = async (request, response) => {
       });
     }
     //find section
-    const section = await sectionModel.findOne({ number });
+    const section = await sectionModel.findOne({
+      number,
+      subject: subject._id,
+    });
     //section Exist
     if (section) {
       return response.json({
