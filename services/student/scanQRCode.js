@@ -43,7 +43,7 @@ const scanQrCode = async (request, response) => {
           },
           { new: true }
         );
-
+console.log("Section Attendance recoreded succrgull")
         return response.json({
           status: "Success",
           message: "Attendance Recorded Successfully",
@@ -108,7 +108,7 @@ const scanQrCode = async (request, response) => {
           },
           { new: true }
         );
-
+console.log("lecture attendance recodred succfully")
         return response.json({
           status: "Success",
           message: "Attendance Recorded Successfully",
