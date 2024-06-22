@@ -53,13 +53,17 @@ const addSemster = async (request, response) => {
       subjects,
     });
     console.log(sems[0]._id);
-    
+
     year.semesters.push(sems[0]._id);
-   
+
     await year.save();
+    //find semseter
+    const sem = await semesterModel.findOne({ _id: sems[0]._id });
+    console.log(sem);
     return response.json({
       status: "Success",
       message: "Semster added succefully",
+      sem,
     });
   } catch (err) {
     response.json({ status: "Error", message: err.message });
