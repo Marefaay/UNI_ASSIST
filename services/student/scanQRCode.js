@@ -3,6 +3,13 @@ const subjectModel = require("../../models/subject");
 
 const scanQrCode = async (request, response) => {
   const { type, subjectName, week } = request.body;
+   //week number greaater than 7
+  if (week > 7) {
+    return response.json({
+      status: "Error",
+      message: "This Number Is Not Valid minum 7",
+    });
+  }
   //find subject
   //find subject that want to record attendance for it
   const subject = await subjectModel.findOne({
