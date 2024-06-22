@@ -3,7 +3,7 @@ const joi = require("joi");
 
 //schema
 const schema = joi.object({
-  title: joi.string().min(3).max(25).required().trim(),
+  title: joi.string().min(3).max(30).required().trim(),
   ID: joi
     .string()
     .required()
