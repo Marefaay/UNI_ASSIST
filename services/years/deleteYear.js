@@ -1,3 +1,4 @@
+const semesterModel = require("../../models/semster");
 const yearModel = require("../../models/years");
 
 const deleteYear = async (request, response) => {
@@ -10,9 +11,19 @@ const deleteYear = async (request, response) => {
       return response.json({ status: "Error", message: "Year Not Found" });
     }
     //delete semster
+    year.semesters.forEach(async (semster) => {
+      const semester = await semesterModel.findOne({ _id: semster });
+      //delete subjects from semster
+      semester.subjects.forEach(async (subject) => {
+        // const subject = await subjectModel.findOne({ _id: subject });
+        await subjectModel.deleteOne({ _id: subject });
+      });
+      //delete semster from db
+      await semesterModel.deleteOne({ _id: semster });
+    });
     //delte year
     await yearModel.deleteOne({ _id: id });
-   
+
     response.json({
       status: "success",
       message: `Year ${year.yearNo} deleted successfully`,
