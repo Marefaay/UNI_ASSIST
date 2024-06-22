@@ -6,7 +6,7 @@ const schema = joi.object({
   name: joi
     .string()
     .min(5)
-    .max(15)
+    .max(30)
     .pattern(/[a-zA-Z]{5,15}_Admin/),
   email: joi
     .string()
