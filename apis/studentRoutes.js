@@ -16,13 +16,13 @@ const logout = require("../services/student/logout");
 const downloadLecture = require("../services/Lectures/downloadLecture");
 const objectIdValidation = require("../middlwares/validation/objectIdValdation");
 // const getLecture = require("../services/Lectures/getLecture");
-const getSection = require("../services/sections/getSection");
+const getSection = require("../services/sections/getSections");
 const downloadSection = require("../services/sections/downloadSection");
 // const scanQR = require("../services/student/scanQRCodeForLecture");
 // const s = require("../services/student/scanQRCodeForSection");
 // const scanQRCodeForSection = require("../services/student/scanQRCodeForSection");
 const scanQRCodeForLecture = require("../services/student/scanQRCode");
-// const scanQRCodeForSection = require("../services/student/scanQRCodeForSection");
+const scanQRCodeForSection = require("../services/student/scanQRCodeForSection");
 const scanQRCodeValidation = require("../middlwares/validation/scanQRCodeValidation");
 const toggleLikes = require("../services/post/toggleLikes");
 const addComment = require("../services/comment/addComment");
@@ -85,7 +85,7 @@ router.get(
 );
 //get Section
 router.get(
-  "/section/get-section/:id",
+  "/section/get-sections/:id",
   userAutherization,
   objectIdValidation,
   getSection
