@@ -1,22 +1,27 @@
-const sectionModel = require("../../models/section");
+// const sectionModel = require("../../models/section");
+const subjectModel = require("../../models/subject");
 
-const getSection = async (request, response) => {
+const getSections = async (request, response) => {
   try {
     const { id } = request.params;
-    const section = await sectionModel.findOne(
-      { _id: id },
-      { _id: 0, subject: 0, addedBy: 0, __v: 0 }
-    );
-    if (!section) {
+    const subject = await subjectModel
+      .findOne({ _id: id },)
+      .populate("sections",{_id:0,addedBy:0,subject:0,__v:0});
+
+    if (!subject) {
       return response.json({
         status: "Error",
-        message: "This Section Is Not Found",
+        message: "This Subject Is Not Found",
       });
     } else {
-      return response.json({ status: "Success", message: "Section ", section });
+      return response.json({
+        status: "Success",
+        message: `Sections Of ${subject.title}retrived succfully`,
+        section: subject.sections,
+      });
     }
   } catch (error) {
     return response.json({ status: "Error", message: error });
   }
 };
-module.exports = getSection;
+module.exports = getSections;
