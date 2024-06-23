@@ -15,14 +15,14 @@ const viewsubjectAttendance = require("../services/student/ViewSectionAttendance
 const logout = require("../services/student/logout");
 const downloadLecture = require("../services/Lectures/downloadLecture");
 const objectIdValidation = require("../middlwares/validation/objectIdValdation");
-const getLecture = require("../services/Lectures/getLecture");
+// const getLecture = require("../services/Lectures/getLecture");
 const getSection = require("../services/sections/getSection");
 const downloadSection = require("../services/sections/downloadSection");
 // const scanQR = require("../services/student/scanQRCodeForLecture");
 // const s = require("../services/student/scanQRCodeForSection");
 // const scanQRCodeForSection = require("../services/student/scanQRCodeForSection");
 const scanQRCodeForLecture = require("../services/student/scanQRCode");
-// const scanQRCodeForSection = require("../services/student/scanQRCodeForSection");
+const scanQRCodeForSection = require("../services/student/scanQRCodeForSection");
 const scanQRCodeValidation = require("../middlwares/validation/scanQRCodeValidation");
 const toggleLikes = require("../services/post/toggleLikes");
 const addComment = require("../services/comment/addComment");
@@ -37,6 +37,7 @@ const viewSectionAttendanceForStudent = require("../services/student/ViewSection
 const viewLecturAttendanceForStudent = require("../services/student/viewLectureAttendanceForStudent");
 const viewAllSubjectsForStudent = require("../services/student/viewAllSubjectsForStundet");
 const scanQrCode = require("../services/student/scanQRCode");
+const getLectures = require("../services/Lectures/getLectures");
 const router = require("express").Router();
 //Login
 router.post("/login", stuedntValidation, studentLogin);
@@ -77,10 +78,10 @@ router.get(
 );
 //get lecture
 router.get(
-  "/lecture/get-lecture/:id",
+  "/lecture/get-lectures/:id",
   userAutherization,
   objectIdValidation,
-  getLecture
+  getLectures
 );
 //get Section
 router.get(
