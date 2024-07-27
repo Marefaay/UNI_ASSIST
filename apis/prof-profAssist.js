@@ -28,7 +28,7 @@ const getOnePost = require("../services/post/getOnePost");
 const getProfPosts = require("../services/post/getProfPosts");
 const deletePost = require("../services/post/deletePost");
 const updatePost = require("../services/post/updatePost");
-const viewAllSubjectsForPof = require("../services/profORprofassist/viewAllSubjectForProf");
+const ViewAllSubjects = require("../services/profORprofassist/viewAllSubjects");
 
 const router = require("express").Router();
 
@@ -155,7 +155,7 @@ router.put(
 router.get(
   "/subjects/view-all-subjects",
   profOrProfAssistAutherization,
-  viewAllSubjectsForPof
+  ViewAllSubjects
 );
 
 //Logout
