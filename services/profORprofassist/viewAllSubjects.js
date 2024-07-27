@@ -10,6 +10,8 @@ const ViewAllSubjects = async (request, response) => {
     });
   }
   console.log(prof.subject);
+  if(prof.subject.length==0){
+    return response.json({status:"Error",message:"This Prof Have No Subjects"});}
   return response.json({
     status: "Success",
     message: "Subjects Retrived Succefully",
