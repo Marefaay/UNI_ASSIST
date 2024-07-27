@@ -7,7 +7,7 @@ const viewAllSubjectsForPof = async (request, response) => {
   const prof = await profOrProfAssistModel.findOne({ _id: request.id });
   //prof not exist
   if (!prof) {
-    return reposne.json({
+    return response.json({
       status: "Error",
       message: "This ProfOrProfAssist Is Not Found",
     });
